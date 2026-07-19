@@ -21,6 +21,7 @@ class TestTDMS(unittest.TestCase):
 
         file = open(tdmsFilePath, "rb")
         tdmsFile = nptdms.TdmsFile(file, raw_timestamps=True, read_metadata_only=True, keep_open=False)
+        self.assertEqual(tdmsFile.tdms_version, 4712)
         self.assertTrue(tdmsFile._raw_timestamps)
         self.assertIsInstance(tdmsFile, nptdms.TdmsFile)
         self.assertIsNone(tdmsFile._reader._index_file_path)
@@ -35,6 +36,7 @@ class TestTDMS(unittest.TestCase):
         tdmsFilePath = self.parentFolder + tdmsFileName
 
         tdmsFile = nptdms.TdmsFile(tdmsFilePath, raw_timestamps=True, read_metadata_only=True, keep_open=False, memmap_dir="./tmp/")
+        self.assertEqual(tdmsFile.tdms_version, 4713)
         self.assertTrue(tdmsFile._raw_timestamps)
         self.assertIsInstance(tdmsFile, nptdms.TdmsFile)
         self.assertEqual(tdmsFile.data_read, False)
@@ -49,6 +51,7 @@ class TestTDMS(unittest.TestCase):
 
         file = open(tdmsFilePath, "rb")
         tdmsFile = nptdms.TdmsFile(file, raw_timestamps=False, memmap_dir="A Bad Path", read_metadata_only=True, keep_open=True)
+        self.assertEqual(tdmsFile.tdms_version, 4713)
         self.assertFalse(tdmsFile._raw_timestamps)
         self.assertEqual(tdmsFile.data_read, False)
         self.assertIsNone(tdmsFile._reader._index_file_path)
@@ -64,6 +67,7 @@ class TestTDMS(unittest.TestCase):
 
         file = open(tdmsFilePath, "rb")
         tdmsFile = nptdms.TdmsFile(file, raw_timestamps=False, read_metadata_only=False, keep_open=False)
+        self.assertEqual(tdmsFile.tdms_version, 4713)
         self.assertFalse(tdmsFile._raw_timestamps)
         self.assertEqual(tdmsFile.data_read, True)
         self.assertIsNone(tdmsFile._memmap_dir)
@@ -79,6 +83,7 @@ class TestTDMS(unittest.TestCase):
         tdmsFilePath = self.parentFolder + tdmsFileName
 
         tdmsFile = nptdms.TdmsFile(tdmsFilePath, raw_timestamps=True, read_metadata_only=False, keep_open=True, memmap_dir="./tmp/")
+        self.assertEqual(tdmsFile.tdms_version, 4712)
         self.assertTrue(tdmsFile._raw_timestamps)
         self.assertEqual(tdmsFile.data_read, True)
         self.assertEqual(tdmsFile._memmap_dir, "./tmp/")
@@ -92,6 +97,7 @@ class TestTDMS(unittest.TestCase):
         tdmsFilePath = self.parentFolder + tdmsFileName
 
         tdmsFile = nptdms.TdmsFile(tdmsFilePath, raw_timestamps=False, read_metadata_only=False, keep_open=True)
+        self.assertEqual(tdmsFile.tdms_version, 4713)
         self.assertFalse(tdmsFile._raw_timestamps)
         self.assertEqual(tdmsFile.data_read, True)
         self.assertIsNone(tdmsFile._memmap_dir)
@@ -138,6 +144,7 @@ class TestTDMS(unittest.TestCase):
 
         file = open(tdmsFilePath, "rb")
         tdmsFile = nptdms.TdmsFile(file, raw_timestamps=False, read_metadata_only=True, keep_open=True, memmap_dir="./tmp/")
+        self.assertEqual(tdmsFile.tdms_version, 4712)
         self.assertFalse(tdmsFile._raw_timestamps)
         self.assertEqual(tdmsFile.data_read, False)
         self.assertEqual(tdmsFile._memmap_dir, "./tmp/")
