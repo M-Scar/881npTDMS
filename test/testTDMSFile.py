@@ -118,9 +118,33 @@ class TestTDMS(unittest.TestCase):
 
     def testCase9(self):
         print("TESTCASE9: Testing: 2.0 - Big Endian - Index File: Yes - Type: Single - Read Metadata Only: false - TimeStamps: True - Memory Mapped Dir: non valid string - rb File - Keep Open: True")
+        tdmsFileName = "2p0_big_end_Index_y_single.tdms"
+        tdmsFilePath = self.parentFolder + tdmsFileName
+        file = open(tdmsFilePath, "rb")   
+        with self.assertRaises(FileNotFoundError):                   
+            tdmsFile = nptdms.TdmsFile(file, raw_timestamps=False, memmap_dir="A Bad Path", read_metadata_only=False, keep_open=True)
+            self.assertTrue(tdmsFile._raw_timestamps)
+            self.assertNotEqual(tdmsFile.data_read, False)
+            self.assertEqual(tdmsFile._memmap_dir, "A Bad Path")        
+            self.assertIsNotNone(tdmsFile._reader._file)
+            self.assertIsEqual(tdmsFile._reader._index_file_path, tdmsFilePath+"_index")
+            tdmsFile.close()
+        file.close()
         print("")
     def testCase10(self):
         print("TESTCASE10: Testing: 1.0 - Little Endian - Index File: Yes - Type: Single - Read Metadata Only: True - TimeStamps: False - Memory Mapped Dir: String - rb File - Keep Open: True")
+        tdmsFileName = "1p0_little_end_Index_y_single.tdms"
+        tdmsFilePath = self.parentFolder + tdmsFileName
+
+        file = open(tdmsFilePath, "rb")
+        tdmsFile = nptdms.TdmsFile(file, raw_timestamps=False, read_metadata_only=True, keep_open=True, memmap_dir="./tmp/")                
+        self.assertFalse(tdmsFile._raw_timestamps)
+        self.assertEqual(tdmsFile.data_read, False)
+        self.assertEqual(tdmsFile._memmap_dir, "./tmp/")
+        self.assertIsNotNone(tdmsFile._reader._file)
+        self.assertIsNone(tdmsFile._reader._index_file_path)
+        tdmsFile.close()
+        file.close()
         print("")
 
 if __name__ == "__main__":
