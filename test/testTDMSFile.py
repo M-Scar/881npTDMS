@@ -101,7 +101,21 @@ class TestTDMS(unittest.TestCase):
 
     def testCase8(self):
         print("TESTCASE8: Testing: 1.0 - Little Endian - Index File: Yes - Type: Double - Read Metadata Only: false - TimeStamps: True - Memory Mapped Dir: non valid string - rb File - Keep Open: False")
-        print("")
+        tdmsFileName = "1p0_little_end_Index_y_double.tdms"
+        tdmsFilePath = self.parentFolder + tdmsFileName
+
+        file = open(tdmsFilePath, "rb")
+        with self.assertRaises(FileNotFoundError):
+            tdmsFile = nptdms.TdmsFile(file, raw_timestamps=True, read_metadata_only=False, keep_open=False, memmap_dir="Wherever I May Roam")
+            self.assertTrue(tdmsFile._raw_timestamps)
+            self.assertEqual(tdmsFile.data_read, True)
+            self.assertEqual(tdmsFile._memmap_dir,"Wherever I May Roam")
+            self.assertIsNone(tdmsFile._reader._index_file)
+            self.assertIsNone(tdmsFile._reader._file)
+            self.assertEqual(tdmsFile._reader._index_file_path, tdmsFilePath)
+            self.assertEqual(tdmsFile._reader._index_file_path, tdmsFilePath + "_index")
+        file.close()
+
     def testCase9(self):
         print("TESTCASE9: Testing: 2.0 - Big Endian - Index File: Yes - Type: Single - Read Metadata Only: false - TimeStamps: True - Memory Mapped Dir: non valid string - rb File - Keep Open: True")
         print("")
