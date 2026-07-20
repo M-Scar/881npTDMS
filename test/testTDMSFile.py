@@ -1,10 +1,25 @@
 import unittest
 import nptdms
+import numpy
 from nptdms.tdms import TdmsReader
 
 class TestTDMS(unittest.TestCase):
 
     parentFolder = "./test/tdms_files/"
+
+    def checkValues(self, tdmsfile, filename):
+        data = numpy.loadtxt(filename, delimiter=",", skiprows=1)
+        channel1 = tdmsfile["Group0"]["Untitled"][:]
+        channel2 = tdmsfile["Group1"]["Untitled"][:]
+        channel3 = tdmsfile["Group2"]["Untitled"][:]
+
+        check = True
+        check &= (data == channel1).all()
+        check &= (data == channel2).all()
+        check &= (data == channel3).all()
+
+        self.assertTrue(check)
+
 
     def testCase1(self):
         print("TESTCASE1: Testing: 1.0 - Big Endian - Index File: Yes - Type: Double - Read Metadata Only: False - TimeStamps: False - Memory Mapped Dir: False - Read Path - Keep Open: True")
@@ -65,8 +80,10 @@ class TestTDMS(unittest.TestCase):
         tdmsFileName = "2p0_big_end_Index_y_single.tdms"
         tdmsFilePath = self.parentFolder + tdmsFileName
 
+
         file = open(tdmsFilePath, "rb")
         tdmsFile = nptdms.TdmsFile(file, raw_timestamps=False, read_metadata_only=False, keep_open=False)
+        self.checkValues(tdmsFile, self.parentFolder+"doubleCheck.csv")
         self.assertEqual(tdmsFile.tdms_version, 4713)
         self.assertFalse(tdmsFile._raw_timestamps)
         self.assertEqual(tdmsFile.data_read, True)
@@ -83,6 +100,7 @@ class TestTDMS(unittest.TestCase):
         tdmsFilePath = self.parentFolder + tdmsFileName
 
         tdmsFile = nptdms.TdmsFile(tdmsFilePath, raw_timestamps=True, read_metadata_only=False, keep_open=True, memmap_dir="./tmp/")
+        self.checkValues(tdmsFile, self.parentFolder+"doubleCheck.csv")
         self.assertEqual(tdmsFile.tdms_version, 4712)
         self.assertTrue(tdmsFile._raw_timestamps)
         self.assertEqual(tdmsFile.data_read, True)
@@ -97,6 +115,7 @@ class TestTDMS(unittest.TestCase):
         tdmsFilePath = self.parentFolder + tdmsFileName
 
         tdmsFile = nptdms.TdmsFile(tdmsFilePath, raw_timestamps=False, read_metadata_only=False, keep_open=True)
+        self.checkValues(tdmsFile, self.parentFolder+"doubleCheck.csv")
         self.assertEqual(tdmsFile.tdms_version, 4713)
         self.assertFalse(tdmsFile._raw_timestamps)
         self.assertEqual(tdmsFile.data_read, True)
