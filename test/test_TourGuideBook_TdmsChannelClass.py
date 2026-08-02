@@ -67,6 +67,7 @@ class TestGuidBookTourTdmsChannel(unittest.TestCase):
         assert len(timeFile) == 99
         assert isinstance(timeFile, numpy.ndarray)
 
+    """Tests as DataFrame function. Asserts returned object is dataframe and data length matches sample input file"""
     def test_to_dataframe(self):
         dataFrame = self.testChannel.as_dataframe()
         assert isinstance(dataFrame, pandas.DataFrame)
