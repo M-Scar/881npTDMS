@@ -1,6 +1,7 @@
 import unittest
 import nptdms
 from nptdms.tdms import TdmsReader
+import os
 
 class TestTDMS(unittest.TestCase):
 
@@ -81,7 +82,7 @@ class TestTDMS(unittest.TestCase):
 
         tdmsFileName = "1p0_little_end_Index_n_double.tdms"
         tdmsFilePath = self.parentFolder + tdmsFileName
-
+        os.makedirs("./tmp/", exist_ok=True)
         tdmsFile = nptdms.TdmsFile(tdmsFilePath, raw_timestamps=True, read_metadata_only=False, keep_open=True, memmap_dir="./tmp/")
         self.assertEqual(tdmsFile.tdms_version, 4712)
         self.assertTrue(tdmsFile._raw_timestamps)
