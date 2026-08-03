@@ -5,7 +5,7 @@ from nptdms.reader import TdmsReader
 
 class TestGraphTDMS(unittest.TestCase):
 
-    parentFolder = "./test/tdms_files/"
+    parentFolder = "./tests/tdms_files/"
 
     def testCase1(self):
         print("Path Test: [A,B,C,D,Df]")

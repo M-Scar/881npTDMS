@@ -5,7 +5,7 @@ from nptdms import TdmsFile, TdmsChannel
 
 
 class TestGuidBookTourTdmsChannel(unittest.TestCase):
-    parentFolder = "./test/tdms_files/"
+    parentFolder = "./tests/tdms_files/"
 
     """Set Up to create tdms file to access a real and controlled TdmsChannel"""
     def setUp(self):

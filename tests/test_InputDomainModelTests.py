@@ -4,7 +4,7 @@ from nptdms.tdms import TdmsReader
 
 class TestTDMS(unittest.TestCase):
 
-    parentFolder = "./test/tdms_files/"
+    parentFolder = "./tests/tdms_files/"
 
     def testCase1(self):
         print("TESTCASE1: Testing: 1.0 - Big Endian - Index File: Yes - Type: Double - Read Metadata Only: False - TimeStamps: False - Memory Mapped Dir: False - Read Path - Keep Open: True")
