@@ -3,7 +3,7 @@ import nptdms
 import struct
 from nptdms.reader import TdmsReader
 import os
-
+import collections
 class TestGraphTDMS(unittest.TestCase):
 
     parentFolder = "./tests/tdms_files/"
@@ -134,6 +134,31 @@ class TestGraphTDMS(unittest.TestCase):
     #     with self.assertRaises(struct.error) as error:
     #         tdmsFile = nptdms.TdmsFile(self.parentFolder + "1p0_big_end_Index_y_double_broken.tdms_index", raw_timestamps=False, read_metadata_only=False, keep_open=False)
     #     self.assertEqual(str(error.exception), "unpack requires a buffer of 4 bytes")
+
+    #
+    # Graph Test: Read
+    #
+
+    def test_node_a_b_c_d_m_q_r_t(self):
+        file = nptdms.TdmsFile(self.parentFolder + "tdsmByteOnly.tdms")
+        self.assertTrue   (file.data_read)
+        self.assertTrue   (len(file._channel_data) == 0)
+        self.assertTrue   (len(file._properties) == 0)
+        self.assertIsNone (file.tdms_version)
+
+    def test_node_a_b_d_m_q_q_s_q_r_t(self):
+        file = nptdms.TdmsFile(self.parentFolder + "tdmsNoGroupNoDataNoChannel.tdms")
+        self.assertTrue   (file.data_read)
+        self.assertTrue   (len(file._channel_data) == 0)
+        self.assertTrue   (len(file._properties) == 1)
+        self.assertTrue   (file.tdms_version == 4713)
+
+    def test_node_main_path(self):
+        file = nptdms.TdmsFile(self.parentFolder + "2p0_big_end_Index_n_double.tdms")
+        self.assertTrue   (len(file.groups()) == 3)
+        self.assertTrue   (len(file.groups()[0]) == 1)
+        self.assertTrue   (file.tdms_version == 4713)
+        self.assertTrue   (len(file._properties) == 1)
 
 if __name__ == "__main__":
     unittest.main()
