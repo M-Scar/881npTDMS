@@ -4,7 +4,7 @@ import pandas
 from nptdms import TdmsFile, TdmsChannel
 
 
-class TestGuidBookTourTdmsChannel(unittest.TestCase):
+class TestGuideBookTourTdmsChannel(unittest.TestCase):
     parentFolder = "./tests/tdms_files/"
 
     """Set Up to create tdms file to access a real and controlled TdmsChannel"""
@@ -21,54 +21,54 @@ class TestGuidBookTourTdmsChannel(unittest.TestCase):
         del self.channels
 
     """Tests that each channel contains the data provided via input file"""
-    def test_Channel_Data_Array(self):
+    def test_GBTour_01(self):
         for chan in self.channels:
             assert len(chan) == 1000
         assert isinstance(self.channels[0][:], numpy.ndarray)
 
     """Test provided subset function outlined in the documentation"""
-    def test_Channel_Data_Subset_Data(self):
+    def test_GBTour_02(self):
         subset = self.channels[0][500:1000]
         for i in range (len(subset)):
             assert int(subset[i]) == i+501
         assert len(subset) == 500
 
     """Test Given Properites of the Tdms Channel Object"""
-    def test_Channel_properties(self):
+    def test_GBTour_02(self):
         assert self.testChannel.path == "/'Customers'/'Index'"
         assert self.testChannel.name == "Index"
         assert self.testChannel.group_name == "Customers"
         assert isinstance(self.testChannel.dtype, numpy.dtype)
 
     """Tests the non-recommended use of .data propery is equivalent to the index slice"""
-    def test_Channel_data_property(self):
+    def test_GBTour_03(self):
         for chan in self.channels:
             assert chan.data.all() == chan[:].all()
 
     """Tests the raw data attribute, input test does not contain scaled data"""
-    def test_Raw_data(self):
+    def test_GBTour_04(self):
         assert self.testChannel.raw_data.all() == self.testChannel.data.all()
         assert not self.testChannel.raw_scaler_data
 
     """Tests the re-read function of channel class. Uses Offset to get specific sections of data"""
-    def test_read_data(self):
+    def test_GBTour_05(self):
         data = self.testChannel.read_data(20,10,False)
         for i in range(10):
             assert int(data[i]) == i+21
 
     """Checks that channel not containing time properites throws KeyError as defined in Documentation"""
-    def test_time_track_no_time(self):
+    def test_GBTour_05(self):
         with self.assertRaises(KeyError):
             self.testChannel.time_track()
 
     """Test Given Channel with time properites is created with correct type and length matches the controlled length of data"""
-    def test_time_track(self):
+    def test_GBTour_07(self):
         timeFile = TdmsFile(self.parentFolder + "1p0_big_end_Index_y_double.tdms",True)["Group0"]["Untitled"].time_track()
         assert len(timeFile) == 99
         assert isinstance(timeFile, numpy.ndarray)
 
     """Tests as DataFrame function. Asserts returned object is dataframe and data length matches sample input file"""
-    def test_to_dataframe(self):
+    def test_GBTour_08(self):
         dataFrame = self.testChannel.as_dataframe()
         assert isinstance(dataFrame, pandas.DataFrame)
         assert len(dataFrame) == 1000
