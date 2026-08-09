@@ -26,7 +26,19 @@ def multiWrite(filePath, queue):
     try:
         builder = TdmsBuilder()
         builder.addChannel(group="Group1", channel="C1", data=[1,2,3,4,5])
-        with TdmsWriter("./tmp/mutliWrite.tdms") as writer:
+        with TdmsWriter(filePath) as writer:
+            writer.write_segment(builder.getChannels())
+        passFail = True
+    except Exception as e:
+        pass
+    queue.put(passFail)
+
+def multiWriteAppend(filePath, paramList, queue):
+    passFail = False
+    try:
+        builder = TdmsBuilder()
+        builder.addChannel(group=paramList[0], channel=paramList[1], data=[1,2,3,4,5])
+        with TdmsWriter(filePath, "a") as writer:
             writer.write_segment(builder.getChannels())
         passFail = True
     except Exception as e:
@@ -113,6 +125,49 @@ class TestTdmsTOGOF(unittest.TestCase):
         if os.path.exists("./tmp/mutliWrite.tdms"):
             os.remove("./tmp/mutliWrite.tdms")
             self.assertFalse(os.path.exists("./tmp/mutliWrite.tdms"))
+
+    def test_Togof_04(self):
+        os.makedirs("./tmp", exist_ok=True)
+        processCount = 10
+        processArr = []
+        queue = Queue()
+
+        for i in range(processCount):
+            p = Process(target=multiWriteAppend, args=("./tmp/mutliWriteAppend.tdms", ["Group" + str(i), "C" + str(i)], queue))
+            processArr.append(p)
+        for p in processArr:
+            p.start()
+        returns = [queue.get() for _ in range(processCount)]
+        if False in returns:
+            self.assertTrue(False)
+        for p in processArr:
+            p.join()
+
+        inFile = TdmsFile("./tmp/mutliWriteAppend.tdms")
+        self.assertTrue(len(inFile["Group0"]["C0"][:]) == 5)
+        self.assertTrue(len(inFile["Group1"]["C1"][:]) == 5)
+        self.assertTrue(len(inFile["Group2"]["C2"][:]) == 5)
+        self.assertTrue(len(inFile["Group3"]["C3"][:]) == 5)
+        self.assertTrue(len(inFile["Group4"]["C4"][:]) == 5)
+        self.assertTrue(len(inFile["Group5"]["C5"][:]) == 5)
+        self.assertTrue(len(inFile["Group6"]["C6"][:]) == 5)
+        self.assertTrue(len(inFile["Group7"]["C7"][:]) == 5)
+        self.assertTrue(len(inFile["Group8"]["C8"][:]) == 5)
+        self.assertTrue(len(inFile["Group9"]["C9"][:]) == 5)
+        self.assertTrue(np.array_equal(inFile["Group0"]["C0"][:], np.array([1,2,3,4,5])))
+        self.assertTrue(np.array_equal(inFile["Group1"]["C1"][:], np.array([1,2,3,4,5])))
+        self.assertTrue(np.array_equal(inFile["Group2"]["C2"][:], np.array([1,2,3,4,5])))
+        self.assertTrue(np.array_equal(inFile["Group3"]["C3"][:], np.array([1,2,3,4,5])))
+        self.assertTrue(np.array_equal(inFile["Group4"]["C4"][:], np.array([1,2,3,4,5])))
+        self.assertTrue(np.array_equal(inFile["Group5"]["C5"][:], np.array([1,2,3,4,5])))
+        self.assertTrue(np.array_equal(inFile["Group6"]["C6"][:], np.array([1,2,3,4,5])))
+        self.assertTrue(np.array_equal(inFile["Group7"]["C7"][:], np.array([1,2,3,4,5])))
+        self.assertTrue(np.array_equal(inFile["Group8"]["C8"][:], np.array([1,2,3,4,5])))
+        self.assertTrue(np.array_equal(inFile["Group9"]["C9"][:], np.array([1,2,3,4,5])))
+
+        if os.path.exists("./tmp/mutliWriteAppend.tdms"):
+            os.remove("./tmp/mutliWriteAppend.tdms")
+            self.assertFalse(os.path.exists("./tmp/mutliWriteAppend.tdms"))
 
 if __name__ == "__main__":
     unittest.main()
