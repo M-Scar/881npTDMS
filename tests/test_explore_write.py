@@ -4,7 +4,7 @@ from nptdms import ChannelObject
 from nptdms.writer import *
 import os
 import shutil
-from TdmsBuilder import TdmsBuilder
+from tests.TdmsBuilder import TdmsBuilder
 
 class TestExploreWrite(unittest.TestCase):
 

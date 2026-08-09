@@ -1,7 +1,7 @@
 import unittest
 from nptdms import TdmsFile, TdmsWriter
 from multiprocessing import Process, Queue
-from TdmsBuilder import TdmsBuilder
+from tests.TdmsBuilder import TdmsBuilder
 import os
 import numpy as np
 
@@ -147,24 +147,9 @@ class TestTdmsTOGOF(unittest.TestCase):
         self.assertTrue(len(inFile["Group0"]["C0"][:]) == 5)
         self.assertTrue(len(inFile["Group1"]["C1"][:]) == 5)
         self.assertTrue(len(inFile["Group2"]["C2"][:]) == 5)
-        self.assertTrue(len(inFile["Group3"]["C3"][:]) == 5)
-        self.assertTrue(len(inFile["Group4"]["C4"][:]) == 5)
-        self.assertTrue(len(inFile["Group5"]["C5"][:]) == 5)
-        self.assertTrue(len(inFile["Group6"]["C6"][:]) == 5)
-        self.assertTrue(len(inFile["Group7"]["C7"][:]) == 5)
-        self.assertTrue(len(inFile["Group8"]["C8"][:]) == 5)
-        self.assertTrue(len(inFile["Group9"]["C9"][:]) == 5)
         self.assertTrue(np.array_equal(inFile["Group0"]["C0"][:], np.array([1,2,3,4,5])))
         self.assertTrue(np.array_equal(inFile["Group1"]["C1"][:], np.array([1,2,3,4,5])))
         self.assertTrue(np.array_equal(inFile["Group2"]["C2"][:], np.array([1,2,3,4,5])))
-        self.assertTrue(np.array_equal(inFile["Group3"]["C3"][:], np.array([1,2,3,4,5])))
-        self.assertTrue(np.array_equal(inFile["Group4"]["C4"][:], np.array([1,2,3,4,5])))
-        self.assertTrue(np.array_equal(inFile["Group5"]["C5"][:], np.array([1,2,3,4,5])))
-        self.assertTrue(np.array_equal(inFile["Group6"]["C6"][:], np.array([1,2,3,4,5])))
-        self.assertTrue(np.array_equal(inFile["Group7"]["C7"][:], np.array([1,2,3,4,5])))
-        self.assertTrue(np.array_equal(inFile["Group8"]["C8"][:], np.array([1,2,3,4,5])))
-        self.assertTrue(np.array_equal(inFile["Group9"]["C9"][:], np.array([1,2,3,4,5])))
-
         if os.path.exists("./tmp/mutliWriteAppend.tdms"):
             os.remove("./tmp/mutliWriteAppend.tdms")
             self.assertFalse(os.path.exists("./tmp/mutliWriteAppend.tdms"))

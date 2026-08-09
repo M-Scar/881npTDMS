@@ -3,7 +3,7 @@ import nptdms
 from nptdms.tdms import TdmsReader
 import os
 
-class TestTDMS(unittest.Test_PW_0):
+class TestTDMS(unittest.TestCase):
 
     parentFolder = "./tests/tdms_files/"
 
