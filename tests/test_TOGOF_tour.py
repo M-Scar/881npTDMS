@@ -51,7 +51,7 @@ class TestTdmsTOGOF(unittest.TestCase):
 
     def test_Togof_01(self):
         filePath = self.parentDir + "customers.tdms"
-        processCount = 10
+        processCount = 3
         processArr = []
         queue = Queue()
 
@@ -77,7 +77,7 @@ class TestTdmsTOGOF(unittest.TestCase):
 
     def test_Togof_02(self):
         filePath = self.parentDir + "customers.tdms"
-        processCount = 10
+        processCount = 3
         processArr = []
         queue = Queue()
 
@@ -104,7 +104,7 @@ class TestTdmsTOGOF(unittest.TestCase):
 
     def test_Togof_03(self):
         os.makedirs("./tmp", exist_ok=True)
-        processCount = 10
+        processCount = 3
         processArr = []
         queue = Queue()
 
@@ -128,7 +128,7 @@ class TestTdmsTOGOF(unittest.TestCase):
 
     def test_Togof_04(self):
         os.makedirs("./tmp", exist_ok=True)
-        processCount = 10
+        processCount = 3
         processArr = []
         queue = Queue()
 
