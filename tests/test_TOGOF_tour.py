@@ -1,6 +1,9 @@
 import unittest
-from nptdms import TdmsFile
+from nptdms import TdmsFile, TdmsWriter
 from multiprocessing import Process, Queue
+from TdmsBuilder import TdmsBuilder
+import os
+import numpy as np
 
 def multiRead(filePath, queue):
     try:
@@ -18,11 +21,23 @@ def multiMemMap(filePath, queue):
     except Exception as e:
         queue.put(("fail",str(e)))
 
+def multiWrite(filePath, queue):
+    passFail = False
+    try:
+        builder = TdmsBuilder()
+        builder.addChannel(group="Group1", channel="C1", data=[1,2,3,4,5])
+        with TdmsWriter("./tmp/mutliWrite.tdms") as writer:
+            writer.write_segment(builder.getChannels())
+        passFail = True
+    except Exception as e:
+        pass
+    queue.put(passFail)
+
 class TestTdmsTOGOF(unittest.TestCase):
 
     parentDir = "./tests/tdms_files/"
 
-    def test_parallel_read(self):
+    def test_Togof_01(self):
         filePath = self.parentDir + "customers.tdms"
         processCount = 10
         processArr = []
@@ -48,7 +63,7 @@ class TestTdmsTOGOF(unittest.TestCase):
 
         assert passFail == True
 
-    def test_parallel_memmap(self):
+    def test_Togof_02(self):
         filePath = self.parentDir + "customers.tdms"
         processCount = 10
         processArr = []
@@ -74,6 +89,30 @@ class TestTdmsTOGOF(unittest.TestCase):
         self.assertTrue(passFail)
         for result in returns:
             self.assertTrue (result[1].all() == check.all())
+
+    def test_Togof_03(self):
+        os.makedirs("./tmp", exist_ok=True)
+        processCount = 10
+        processArr = []
+        queue = Queue()
+
+        for _ in range(processCount):
+            p = Process(target=multiWrite, args=("./tmp/mutliWrite.tdms", queue))
+            processArr.append(p)
+        for p in processArr:
+            p.start()
+        returns = [queue.get() for _ in range(processCount)]
+        if False in returns:
+            self.assertTrue(False)
+        for p in processArr:
+            p.join()
+        inFile = TdmsFile("./tmp/mutliWrite.tdms")
+        self.assertTrue(len(inFile["Group1"]["C1"][:]) == 5)
+        self.assertTrue(np.array_equal(inFile["Group1"]["C1"][:], np.array([1,2,3,4,5])))
+
+        if os.path.exists("./tmp/mutliWrite.tdms"):
+            os.remove("./tmp/mutliWrite.tdms")
+            self.assertFalse(os.path.exists("./tmp/mutliWrite.tdms"))
 
 if __name__ == "__main__":
     unittest.main()
