@@ -74,6 +74,7 @@ class TestTDMS(unittest.TestCase):
         tdmsFilePath = os.path.join(script_dir, "tdms_files", "1p0_big_end_Index_y_double.tdms")
         tdmsfile = nptdms.TdmsFile(tdmsFilePath, read_metadata_only=False, keep_open=True)
         tdmsfile = nptdms.TdmsFile(tdmsFilePath, read_metadata_only=False, keep_open=True)
+        #no asserts, just don't error
         print(tdmsfile.groups()[0].channels()[0][:])
     def test2503(self):
         #tdms try passing in pictures
