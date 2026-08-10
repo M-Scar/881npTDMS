@@ -5,7 +5,11 @@ import os
 
 @given("A TDMS with a file property")
 def step_create_tdms(context):
-   context.tdms_file = TdmsFile.read("propertyLadenTDMS.tdms")
+   script_dir = os.path.dirname(os.path.abspath(__file__))
+   parent_dir = os.path.dirname(script_dir)
+   tdmsFilePath = os.path.join(parent_dir, "tests", "tdms_files", "propertyLadenTDMS.tdms")
+   context.tdms_file = TdmsFile.read(tdmsFilePath)
+
 
 @when("The tdms is read using npTDMS")
 def step_read_tdms(context):

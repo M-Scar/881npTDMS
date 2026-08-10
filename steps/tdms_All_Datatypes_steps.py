@@ -77,7 +77,7 @@ def step_Cmp_DaqVal_tdms(context):
    #  print(f"{type(context.tdmsfile.groups()[0].channels()[0][0])} is the value read")
     comSingle = context.tdmsfile.groups()[0].channels()[14][0]    
     comDouble = context.tdmsfile.groups()[0].channels()[15][0]    
-   #  breakpoint()    
+    breakpoint()    
     ut.TestCase().assertTrue(isinstance(comSingle,np.complex64))
     ut.TestCase().assertTrue(isinstance(comDouble,np.complex128)) #np.bool could be expected
     print("DONE")    
