@@ -13,7 +13,7 @@ def step_v_tdms(context):
    context.compareDex = 0
    context.tdmsFilePath = os.path.join(script_dir, "../tests/tdms_files/DAQmxTypeTDMS", "TDMSAllData.tdms")
    print(context.tdmsFilePath)
-   
+
 @when("The all data type tdms is read using npTDMS")
 def step_read_DAQTest_tdms(context):
     print("start the read")
@@ -31,7 +31,7 @@ def step_Cmp_DaqVal_tdms(context):
     ut.TestCase().assertTrue(isinstance(i8,np.int8))
     ut.TestCase().assertTrue(isinstance(i16,np.int16))
     ut.TestCase().assertTrue(isinstance(i32,np.int32))
-    ut.TestCase().assertTrue(isinstance(i64,np.int64))    
+    ut.TestCase().assertTrue(isinstance(i64,np.int64))
     print("DONE")
 @then("The tdms file ties unsigned integers to appropriate datatypes")
 def step_Cmp_DaqVal_tdms(context):
@@ -45,7 +45,7 @@ def step_Cmp_DaqVal_tdms(context):
     ut.TestCase().assertTrue(isinstance(ui8,np.uint8))
     ut.TestCase().assertTrue(isinstance(ui16,np.uint16))
     ut.TestCase().assertTrue(isinstance(ui32,np.uint32))
-    ut.TestCase().assertTrue(isinstance(ui64,np.uint64))    
+    ut.TestCase().assertTrue(isinstance(ui64,np.uint64))
     print("DONE")
 @then("The tdms file ties floats to appropriate datatypes")
 def step_Cmp_DaqVal_tdms(context):
@@ -61,7 +61,7 @@ def step_Cmp_DaqVal_tdms(context):
 def step_Cmp_DaqVal_tdms(context):
     #compare against the assignments
    #  print(f"{type(context.tdmsfile.groups()[0].channels()[0][0])} is the value read")
-    voidVal = context.tdmsfile.groups()[0].channels()[0]    
+    voidVal = context.tdmsfile.groups()[0].channels()[0]
     stringVal = context.tdmsfile.groups()[0].channels()[11][0]
     boolVal = context.tdmsfile.groups()[0].channels()[12][0]
     timeVal = context.tdmsfile.groups()[0].channels()[13][0]
@@ -69,17 +69,17 @@ def step_Cmp_DaqVal_tdms(context):
     ut.TestCase().assertTrue(context.tdmsfile.groups()[0].channels()[0].dtype == 'V8') #no values
     ut.TestCase().assertTrue(isinstance(stringVal,str))
     ut.TestCase().assertTrue(isinstance(boolVal,np.uint8)) #np.bool could be expected
-    ut.TestCase().assertTrue(isinstance(timeVal,np.datetime64)) 
+    ut.TestCase().assertTrue(isinstance(timeVal,np.datetime64))
     print("DONE")
 @then("The tdms file ties complexes to appropriate datatypes")
 def step_Cmp_DaqVal_tdms(context):
     #compare against the assignments
    #  print(f"{type(context.tdmsfile.groups()[0].channels()[0][0])} is the value read")
-    comSingle = context.tdmsfile.groups()[0].channels()[14][0]    
-    comDouble = context.tdmsfile.groups()[0].channels()[15][0]    
-    breakpoint()    
+    comSingle = context.tdmsfile.groups()[0].channels()[14][0]
+    comDouble = context.tdmsfile.groups()[0].channels()[15][0]
+    breakpoint()
     ut.TestCase().assertTrue(isinstance(comSingle,np.complex64))
     ut.TestCase().assertTrue(isinstance(comDouble,np.complex128)) #np.bool could be expected
-    print("DONE")    
+    print("DONE")
 # if __name__ == "__main__":
 #     main(context)
