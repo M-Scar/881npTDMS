@@ -15,7 +15,7 @@ class TestGraphTDMS(unittest.TestCase):
         file = open(self.parentFolder + "1p0_big_end_Index_y_double.tdms" , "r")
         with self.assertRaises(ValueError) as error:
             nptdms.TdmsFile(file, raw_timestamps=False, read_metadata_only=False, keep_open=True)
-        self.assertEqual(str(error.exception), "File should either start with 'b`TDSh`' or 'b`TDSm`', submitted starts with 'TDSm'.")
+        self.assertTrue(str(error.exception) == "File should either start with 'b`TDSh`' or 'b`TDSm`', submitted starts with 'TDSm'.")
         file.close()
 
     def test_EdgeCov_02(self):
