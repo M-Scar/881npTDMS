@@ -158,7 +158,7 @@ class TestGraphTDMS(unittest.TestCase):
         self.assertIsNone (file.tdms_version)
 
     def test_Node_02(self):
-        print("Testing Path: a_b_d_m_q_q_s_q_r_t")
+        print("Testing Path: a_b_d_e_f_d_m_q_r_t")
         file = nptdms.TdmsFile(self.parentFolder + "tdmsNoGroupNoDataNoChannel.tdms")
         self.assertTrue   (file.data_read)
         self.assertTrue   (len(file._channel_data) == 0)
