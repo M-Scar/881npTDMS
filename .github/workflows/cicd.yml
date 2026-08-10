@@ -12,7 +12,7 @@ jobs:
     - name: Set Up Env
       uses: actions/setup-python@v5
       with:
-        python-verson: 3.13.7
+        python-version: 3.13.7
 
     - name: Pip Install
       run: |
