@@ -10,7 +10,6 @@ fi
 
 echo "Running Tests With Coverage"
 coverage run --source=nptdms -m unittest discover
-coverage run -a -m behave
 
 echo "Generating HTML Coverage"
 coverage html --omit="*/nptdms/tests/*,*/nptdms/test/*,*/nptdms/export/*,*/nptdms/version.py,*/nptdms/__init__.py"
