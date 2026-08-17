@@ -1,0 +1,60 @@
+<Configuration>
+  <Target name="My Computer">
+    <EnableDebuggingForAllVIs>0</EnableDebuggingForAllVIs>
+    <VI name="advancedOpenNoClose.vi">
+      <Breakpoints>
+        <NodeIndexes>
+        </NodeIndexes>
+        <SignalIndexes>
+        </SignalIndexes>
+      </Breakpoints>
+      <Probes>
+        <Generic>
+          <SignalUID value="211"/>
+        </Generic>
+      </Probes>
+    </VI>
+    <VI name="tdmsGenTool.vi">
+      <Breakpoints>
+        <NodeIndexes>
+        </NodeIndexes>
+        <SignalIndexes>
+        </SignalIndexes>
+      </Breakpoints>
+      <Probes>
+        <Generic>
+          <SignalUID value="5123"/>
+          <SignalUID value="4503"/>
+          <SignalUID value="1573"/>
+        </Generic>
+      </Probes>
+    </VI>
+    <VI name="tdmsGenToolAllDAQmxTypes.vi">
+      <Breakpoints>
+        <NodeIndexes>
+        </NodeIndexes>
+        <SignalIndexes>
+        </SignalIndexes>
+      </Breakpoints>
+      <Probes>
+        <Generic>
+          <SignalUID value="5123"/>
+        </Generic>
+      </Probes>
+    </VI>
+    <VI name="tdmsGenToolScaleAllDAQmxTypes.vi">
+      <Breakpoints>
+        <NodeIndexes>
+        </NodeIndexes>
+        <SignalIndexes>
+        </SignalIndexes>
+      </Breakpoints>
+      <Probes>
+        <Generic>
+          <SignalUID value="5311"/>
+          <SignalUID value="9667"/>
+        </Generic>
+      </Probes>
+    </VI>
+  </Target>
+</Configuration>
